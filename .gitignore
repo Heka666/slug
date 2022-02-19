@@ -1,0 +1,15 @@
+/*
+
+!/src
+!/test
+!CMakeLists.txt
+!.gitignore
+
+!.clang-format
+
+!LICENSE
+!README.md
+
+!/doc
+/doc/*
+!/doc/Doxyfile
