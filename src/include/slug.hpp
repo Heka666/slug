@@ -142,7 +142,7 @@ class basic_logger {
 
  private:
   /// \brief basic_logger object initialization time relative to epoch
-  std::chrono::milliseconds const m_start_time{current_time()};
+  std::chrono::milliseconds m_start_time{current_time()};
 
   /// \brief Mutex for basic_logstream object access
   std::mutex mutable m_lstrm_mtx{};
