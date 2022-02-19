@@ -316,7 +316,25 @@ class basic_logger {
   /// \brief Returns initialization time relative to epoch in milliseconds
   constexpr auto start_time() const noexcept { return m_start_time; }
 
+  /// \brief Swap implementation
+  void swap(basic_logger& rhs) {
+    if (this != std::addressof(rhs)) {
+      auto l{lock_stream()};
+      auto lr{rhs.lock_stream()};
+      std::swap(m_start_time, rhs.m_start_time);
+      m_lstrm.swap(rhs.m_lstrm);
+      m_min_lvl_atm.store(rhs.m_min_lvl_atm.exchange(m_min_lvl_atm.load()));
+    }
+  }
 };  // ^ basic_logger ^
+
+/// \brief basic_logger swap specialization
+template <typename CharT, typename Traits = std::char_traits<CharT>,
+          typename StrAllocator = std::allocator<CharT>>
+void swap(basic_logger<CharT, Traits, StrAllocator>& lhs,
+          basic_logger<CharT, Traits, StrAllocator>& rhs) {
+  lhs.swap(rhs);
+}
 
 using logger = basic_logger<char, std::char_traits<char>, std::allocator<char>>;
 using wlogger =
